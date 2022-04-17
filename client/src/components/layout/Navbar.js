@@ -7,33 +7,57 @@ import { logout } from '../../actions/auth';
 const Navbar = ({ auth: { isAuthenticated }, logout }) => {
   const authLinks = (
     <ul>
-      <li>
-        <span className="hide-sm">Assess Web Security</span>
-        <ul class="drop">
-          <li>
-            <a href="vfcd">Run vulnerability scan</a>
+      <li style={{ marginLeft: 20 }}>
+        <li class="dropdown">
+          <b>Assess Web Security</b>
+          <li class="dropdown-content">
+            <li>
+              <a href="scan">Run Vulnerability Scan</a>
+            </li>
+            <li>
+              <a href="rescan">Re-run Scan</a>
+            </li>
           </li>
-          <li>
-            <a href="vfcd">Re-run scan</a>
+        </li>
+      </li>
+      <li style={{ marginLeft: 25 }}>
+        <li class="dropdown">
+          <b>Assess Web Application Firewall</b>
+          <li class="dropdown-content">
+            <li>
+              <a href="dns">Abuse DNS History</a>
+            </li>
+            <li>
+              <a href="ssl">Abuse SSL Cipher</a>
+            </li>
+            <li>
+              <a href="payloads">Generate Payloads</a>
+            </li>
           </li>
-        </ul>
+        </li>
+      </li>
+      <li style={{ marginLeft: 25 }}>
+        <li class="dropdown">
+          <b>Assess Web Gateway </b>
+          <li class="dropdown-content">
+            <li>
+              <a href="inbound">Assess Inbound Traffic</a>
+            </li>
+            <li>
+              <a href="outbound">Assess Outbound Traffic</a>
+            </li>
+          </li>
+        </li>
       </li>
 
-      <li>
-        <Link to="/dashboard">
-          <i className="fas fa-user" />{' '}
-          <span className="hide-sm">Dashboard</span>
-        </Link>
-      </li>
-      <li>
-        <a onClick={logout} href="#!">
+      <li style={{ marginLeft: 300 }}>
+        <a onClick={logout} href="/">
           <i className="fas fa-sign-out-alt" />{' '}
-          <span className="hide-sm">Logout</span>
+          <b className="hide-sm">Logout</b>
         </a>
       </li>
     </ul>
   );
-
   const guestLinks = (
     <ul>
       <li>
@@ -44,7 +68,6 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
       </li>
     </ul>
   );
-
   return (
     <nav className="navbar bg-dark">
       <h1>
