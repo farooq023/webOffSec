@@ -7,11 +7,11 @@ const allScan = require("../../models/AllScan.js")
 const scanResults = require("../../models/Scan.js")
 // const myssl = require("../../model/SslResult.js")
 
-
-router.get('/',
+router.get('/:email',
   async (req, res) => {
-    allScan.aggregate([{ $match:{ Email: req.session.mail } }]).
-    exec((err,results)=>{
+    console.log("fetch scan api called")
+    allScan.aggregate([{ $match:{ Email: req.params.email } }]).
+    exec((err,results)=>{        
         if(!results){
           res.send(res)
           return "Not found"
@@ -62,6 +62,14 @@ router.get('/:domain',
 //         }
 //         res.send(results);
 //     })
+//   }
+// )
+
+
+// router.get('/',
+//   async (req, res) => {
+//     finale=["-"]
+//     console.log("******************************")
 //   }
 // )
 

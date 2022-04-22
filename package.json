@@ -24,6 +24,7 @@
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.23",
+    "mdbreact": "^5.2.0",
     "mongoose": "^6.2.10",
     "node-sass": "^7.0.1",
     "react": "^18.0.0",

@@ -13,9 +13,6 @@ app.use(express.json({ extended: false }));
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
-//admin
-app.use('/api/adminauth', require('./routes/api/adminauth'));
-app.use('/api/adminauthh', require('./routes/api/adminauthh')); //new admin auth api
 
 app.use('/api/results', require('./routes/api/results'));
 app.use('/api/agents', require('./routes/api/agents'));

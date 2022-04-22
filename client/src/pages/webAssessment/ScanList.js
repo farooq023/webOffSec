@@ -1,12 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/alt-text */
 
 import React, { useEffect, useState } from 'react';
 import { Button } from 'reactstrap';
-// import Widget from '../../components/Widget/Widget';
 import { Link } from 'react-router-dom';
 
-const ScanList = (props) => {
+const ScanList = () => {
   let [scanList, setScanList] = useState([]);
 
   useEffect(() => {
@@ -16,7 +13,8 @@ const ScanList = (props) => {
       response.json().then((res) => {
         if (res.length > 0) {
           setScanList(res);
-        } else {
+        }
+        else {
           setScanList('0');
         }
       });
@@ -24,19 +22,12 @@ const ScanList = (props) => {
   });
 
   return (
-    <div>
-      <h1 style={{ textAlign: 'center' }}>
-        {' '}
-        <b>List of Completed Vulnerability Scans</b>{' '}
+    <div style={{height:"100vh", width:"100%", backgroundColor:"#F0F2F5", display:"flex", flexDirection:"column", alignItems:"center"}}>
+      <h1 style={{ marginTop:"7%", color:"#1877f2" }}>
+        List of Completed Vulnerability Scans
       </h1>
 
-      <br />
-      <br />
-      <br />
-      <br />
-
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        {/* <Widget style={{ width: "30%" }}> */}
         <table class="table">
           <thead>
             <tr>
@@ -44,7 +35,7 @@ const ScanList = (props) => {
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             {scanList !== '0' ? (
               scanList.map((obj) => (
                 <tr>
@@ -70,9 +61,8 @@ const ScanList = (props) => {
             ) : (
               <td>No Results Found</td>
             )}
-          </tbody>
+          </tbody> */}
         </table>
-        {/* </Widget> */}
       </div>
     </div>
   );

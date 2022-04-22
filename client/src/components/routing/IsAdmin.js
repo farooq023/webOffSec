@@ -4,22 +4,31 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 
-const PrivateRoute = ({
+const IsAdmin = ({
   component: Component,
   auth: { isAuthenticated, loading, user }
 }) => {
   if (loading) return <Spinner />;
   if (isAuthenticated === true) {
-    if (user?.role === 'agent') {
+    if (user?.role === 'admin') {
       return <Component />;
-    } else if (user?.role === 'admin') {
-      return <Navigate to="/admindashboard" />;
+    } else if (user?.role === 'agent') {
+      return <Navigate to="/dashboard" />;
     }
   }
-  return <Navigate to="/login" />;
+  // isAuthenticated === true ? (
+  //   user.role === 'admin' ? (
+  //     <Component />
+  //   ) : (
+  //     <Navigate to="/dashboard" />
+  //   )
+  // ) : (
+  //   <Navigate to="/login" />
+  // );
+  // return <Navigate to="/login" />;
 };
 
-PrivateRoute.propTypes = {
+IsAdmin.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
@@ -27,4 +36,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default connect(mapStateToProps)(IsAdmin);

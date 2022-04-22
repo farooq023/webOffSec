@@ -1,10 +1,11 @@
+
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ login, auth: { user, isAuthenticated } }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -12,60 +13,79 @@ const Login = ({ login, isAuthenticated }) => {
 
   const { email, password } = formData;
 
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
     login(email, password);
   };
 
-  if (isAuthenticated) {
-    return <Navigate to="/dashboard" />;
-  }
+  if (isAuthenticated === true) {
+    if (user?.role === 'admin') {
+      console.log('ad');
+      return <Navigate to="/admindashboard" />;
+    } else if (user?.role === 'agent') {
+      console.log('oth');
+      return <Navigate to="/dashboard" />;
+    }
+  } 
 
   return (
-    <section className="container">
-      <h1 className="large text-primary">Sign In</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Sign Into Your Account
-      </p>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
+    <div style={{height:"100vh", width:"100%", flexDirection:"row", display:"flex", backgroundColor:"#F0F2F5"}}> 
+      <div style={{marginTop:"12%", marginLeft:"13%", height:"25%", width:"35%", display:"flex", flexDirection:"column"}}>
+        
+        <h1 style={{color:"#1877F2"}}>
+          Web Offensive Security {' '}
+          <i class="fas fa-lock" style={{color:"#1877F2"}} />
+        </h1>
+        <text style={{fontSize:'125%'}}>Use your registered email to login to Web Offensive Security.</text>
+        <div style={{display:"flex", flexDirection:"row", marginTop:"10%", justifyContent:"space-around", height:"100%", width:"100%"}}>
+          <i class="fas fa-fingerprint" style={{color:"#1877F2", fontSize:"15vh"}} />
+          <i class="fas fa-key" style={{color:"#1877F2", fontSize:"15vh"}} />
+        </div>
+
+      </div>
+      <div style={{marginTop:"12%", marginLeft:"6%", height:"60%", width:"25%", border:"2.5px solid #1877F2", borderRadius:"5%", display:"flex", flexDirection:"column", alignItems:"center"}}>
+        <h2 style={{color:"#1877F2", marginTop:"8%"}}>
+        {/* <div style={{width:"100%", display:"flex", flexDirection:"row", justifyContent:"center"}}> */}
+          <i className="fas fa-user" style={{}} /> Sign In
+          {/* <text style={{fontSize:'125%', marginLeft:"2%"}}>Become An Agent Now!</text> */}
+        {/* </div> */}
+        </h2>
+        <form style={{display:"flex", flexDirection:"column", alignItems:"center", height:"100%", width:"100%", marginTop:"10%"}} onSubmit={onSubmit}>
           <input
+            style={{border:"2px solid #1877F2", height:"15%", width:"80%", marginTop:"2%", padding:"4%", borderRadius:"15px"}}
             type="email"
             placeholder="Email Address"
             name="email"
             value={email}
             onChange={onChange}
           />
-        </div>
-        <div className="form-group">
           <input
+            style={{border:"2px solid #1877F2", height:"15%", width:"80%", marginTop:"2%", padding:"4%", marginBottom:"10%", borderRadius:"15px"}}
             type="password"
             placeholder="Password"
             name="password"
             value={password}
             onChange={onChange}
-            minLength="6"
           />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Login" />
-      </form>
-      <p className="my-1">
-        Don't have an account? <Link to="/register">Sign Up</Link>
-      </p>
-    </section>
+          <input type="submit" style={{height:"15%", width:"80%", backgroundColor:"#1877f2", color:"white", borderRadius:"25px", borderColor:"#1877f2"}} value="Sign-in" />
+        </form>
+        <p className="my-1">
+          Not an agent? <Link to="/register">Register Now</Link>
+        </p>
+      </div>
+    </div>
   );
 };
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { login })(Login);

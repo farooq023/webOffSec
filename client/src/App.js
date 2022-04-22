@@ -21,7 +21,7 @@ import Outbound from './pages/webGateway/Outbound';
 import Ongoing from './pages/webAssessment/Ongoing';
 // import Completed from "./pages/Completed";
 import Agents from './pages/admin/Agents';
-import aDashboard from './pages/dashboard/AdminDashboard';
+import AdminDashboard from './pages/dashboard/AdminDashboard';
 import Getreport from './pages/Getreport';
 
 import AssessmentResults from './pages/webAssessment/AssessmentResults';
@@ -31,6 +31,9 @@ import ScanList from './pages/webAssessment/ScanList';
 import ScanResults from './pages/webAssessment/ScanResults';
 import DnsList from './pages/WAF/DnsList';
 import DnsResults from './pages/WAF/DnsResults';
+import Test from './pages/Test';
+
+import IsAdmin from './components/routing/IsAdmin';
 
 import SslList from './pages/WAF/SslList';
 import SslResults from './pages/WAF/SslResults';
@@ -46,6 +49,7 @@ import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
+// import AdminDashboard from './pages/dashboard/AdminDashboard';
 
 const App = () => {
   useEffect(() => {
@@ -73,11 +77,17 @@ const App = () => {
           <Route path="/" element={<Landing />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="test" element={<Test />} />
           {/* <Route path="logint" element={<LoginT />} /> */}
           <Route
             path="dashboard"
             element={<PrivateRoute component={Dashboard} />}
           />
+
+          <Route
+            path="admindashboard"
+            element={<IsAdmin component={AdminDashboard} />}
+          />  
 
           <Route
             path="assessmentresults"
@@ -117,10 +127,10 @@ const App = () => {
             element={<PrivateRoute component={ScanResults} />}
           />
 
-          <Route
+          {/* <Route
             path="adminDashboard"
             element={<PrivateRoute component={aDashboard} />}
-          />
+          /> */}
 
           <Route path="recon" element={<PrivateRoute component={Recon} />} />
           <Route path="scan" element={<PrivateRoute component={Scan} />} />
