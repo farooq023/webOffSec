@@ -26,6 +26,11 @@ app.use('/api/fetchdns', require('./routes/api/fetchdns'));
 app.use('/api/sendssl', require('./routes/api/sendssl'));
 app.use('/api/fetchssl', require('./routes/api/fetchssl'));
 
+app.use('/api/fetchgen', require('./routes/api/fetchgen'));
+
+app.use('/api/fetchallassessment', require('./routes/api/fetchallassessment'));
+
+
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder

@@ -43,7 +43,6 @@ const Completed = ({resultsData,results, isResults}) => {
               <th scope="col">Vulnerability</th>
               <th scope="col">Severity</th>
               <th scope="col">Url</th>
-              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -52,10 +51,6 @@ const Completed = ({resultsData,results, isResults}) => {
                 <td>{obj.Vulnerability}</td>
                 <td>{obj.Severity}</td>
                 <td>{obj.URL}</td>
-                <td>
-                    <button>Re-run</button>
-                </td>
-                
                 </tr>)) : <td></td>
               }
           </tbody>

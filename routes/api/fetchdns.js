@@ -6,9 +6,9 @@ const router = express.Router();
 const allDn = require("../../models/AllDn.js")
 const dnsResults = require("../../models/DnsResult.js")
 
-router.get('/',
+router.get('/:email',
   async (req, res) => {
-    allDn.aggregate([{ $match:{ Email: req.session.mail } }]).
+    allDn.aggregate([{ $match:{ Email: req.params.email } }]).
     exec((err,results)=>{
         if(!results){
           res.send(res)
@@ -40,11 +40,10 @@ router.get('/test',
   } 
 )
 
-router.get('/:domain',
+router.get('/:email/:domain',
   async (req, res) => {
-    // console.log("***********fetching scan results api called***********", req.session.mail);
-    dnsResults.aggregate([{ $match:{ Domain: req.params.domain, Email: req.session.mail } }]).
-    // dnsResults.aggregate([{ $match:{ Domain: req.params.domain } }]).
+    console.log("fetch dns results api called***********", req.session.mail);
+    dnsResults.aggregate([{ $match:{ Email: req.params.email, Domain: req.params.domain } }]).
     exec((err,results)=>{
         if(!results){
           res.send(res)

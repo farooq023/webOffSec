@@ -1,22 +1,16 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/alt-text */
 
 import React, { useEffect, useState } from "react";
-import { Button } from "reactstrap";
-import Widget from "../../components/Widget/Widget";
-// import img from "../assess.jfif"
-// import img3 from "../report.jpg"
-// import { results } from '../../actions/results.js';
-// import {connect} from 'react-redux';
-// import PropTypes from 'prop-types';
-// import {Redirect} from 'react-router-dom'
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Table, Button } from 'reactstrap';
 
-const DnsList = (props) => {
+const DnsList = ({ auth: { user } }) => {
+
   let [dnsList, setDnsList] = useState([]);
 
   useEffect(() => {
-    fetch("/api/fetchdns/", {
+    fetch("/api/fetchdns/"+user.email, {
       method: "GET",
       // body: JSON.stringify(domain),
       // header: {
@@ -39,24 +33,18 @@ const DnsList = (props) => {
   });
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>
-        {" "}
-        <b>List of Abused DNS History</b>{" "}
+    <div style={{height:"100vh", width:"100%", backgroundColor:"#F0F2F5", display:"flex", flexDirection:"column", alignItems:"center"}}>
+      <h1 style={{ marginTop:"7%", color:"#17a2b8" }}>
+        List of Abused DNS History
       </h1>
 
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Widget style={{ width: "30%" }}>
-          <table class="table">
+      <div style={{ display: "flex", justifyContent: "center", marginTop:"5%", border:"5px solid #17a2b8", borderRadius:"25px", padding:"1.5%" }}>
+        <div className="scrollbar scrollbar-primary  mt-5 mx-auto" style={{height:"40vh", width: "30vw"}}>
+          <Table style={{width:"29vw"}}>
             <thead>
               <tr>
-                <th scope="col">Domain</th>
-                <th scope="col">Actions</th>
+                <th><u>Domain</u></th>
+                <th><u>Actions</u></th>
               </tr>
             </thead>
             <tbody>
@@ -75,10 +63,8 @@ const DnsList = (props) => {
                           dur: obj.Duration,
                         }}
                       >
-                        <Button size="sm" style={{ color: "blue" }}>
-                          View Results
-                        </Button>
-                      </Link>
+                      <Button color='primary' size="sm" style={{borderRadius:"25px" }}>View Results</Button>
+                    </Link>
                     </td>
                   </tr>
                 ))
@@ -86,11 +72,20 @@ const DnsList = (props) => {
                 <td>No Results Found</td>
               )}
             </tbody>
-          </table>
-        </Widget>
+          </Table>
+        </div>
       </div>
     </div>
   );
 };
 
-export default DnsList;
+
+DnsList.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(DnsList);

@@ -1,67 +1,99 @@
 
-import React from 'react';
+// import React from 'react';
+import React, { useEffect, useState } from "react";
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import img from '../../assets/assessment2.png';
 import img2 from '../../assets/report.png';
-// import BarChart from './BarChart';
 import { Bar } from 'react-chartjs-2'
 
-
 const Dashboard = ({ auth: { user } }) => {
+
+  let [scanList, setScanList] = useState(0);
+  let [dnsList, setDnsList] = useState(0);
+  let [sslList, setSslList] = useState(0); 
+  let [genList, setGenList] = useState(0);
+
+  useEffect(() => {
+
+    fetch('/api/fetchscan/'+user.email, {
+      method: 'GET'
+    }).then(function (response) {
+      response.json().then((res) => {
+        setScanList(res.length);
+      });
+    });
+
+    fetch('/api/fetchdns/'+user.email, {
+      method: 'GET'
+    }).then(function (response) {
+      response.json().then((res) => {
+        setDnsList(res.length);
+      });
+    });
+
+    fetch('/api/fetchssl/'+user.email, {
+      method: 'GET'
+    }).then(function (response) {
+      response.json().then((res) => {
+        setSslList(res.length);
+      });
+    });
+
+    fetch('/api/fetchgen/'+user.email, {
+      method: 'GET'
+    }).then(function (response) {
+      response.json().then((res) => {
+        setGenList(res.length);
+      });
+    });
+
+  });
   return (
-    // <div className='container'>
     <div style={{height:"100vh", width:"100%", backgroundColor:"#F0F2F5"}}>
 
       <div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
-        <h1 style={{marginTop:"7%", color:"#1877f2"}}>Dashboard</h1>
+        <h1 style={{marginTop:"7%", color:"#17a2b8"}}>Dashboard</h1>
         <div>
           <i className="fas fa-user" /> Welcome {user?.name}
         </div>
       </div>
 
       <div style={{marginTop:"3%", display:"flex", justifyContent:"space-around"}} >
-        <div style={{ height:"40vh", width:"40vw", borderRadius:"25px", border:"5px solid #1877F2"}}>
+        <div style={{ height:"60vh", width:"40vw", borderRadius:"25px", border:"5px solid #17a2b8 "}}>
           <div style={{display:"flex", justifyContent:"center", marginTop:"2%"}}>
-            <h1 style={{color:"#1877f2"}}>Menu</h1>
+            <h1 style={{color:"#17a2b8"}}>Menu</h1>
           </div>
           <div style={{display:"flex", justifyContent:"space-around", marginTop:"2%"}}>
             <Link to="/assessmentresults" style={{display:"flex", float:"left", flexDirection:"column"}}>
               <img src={img} height="120vh" width="100vw" alt='' />
-              {/* <input type="submit"
-              style={{height:"15%", backgroundColor:"#1877f2", color:"white", borderRadius:"25px", borderColor:"#1877f2", marginTop:"3vh"}}
-              value="Completed Assessments" /> */}
               <Button color="primary" style={{borderRadius:"25px", marginTop:"3vh"}}>Completed Assessments</Button>
             </Link>
 
-            <Link to="/assessmentresults" style={{display:"flex", float:"left", flexDirection:"column"}}>
+            <Link to="/getreport" style={{display:"flex", float:"left", flexDirection:"column"}}>
               <img src={img2} height="120vh" width="100vw" alt='' />
-              {/* <input type="submit"
-              style={{height:"15%", backgroundColor:"#1877f2", color:"white", borderRadius:"25px", borderColor:"#1877f2", marginTop:"3vh"}}
-              value=" Get Assessment Report " /> */}
               <Button color="primary" style={{borderRadius:"25px", marginTop:"3vh"}}>Get Assessment Report</Button>
             </Link>
           </div>
         </div>
 
-        <div style={{ height:"50vh", width:"50vw", borderRadius:"25px", border:"5px solid #1877F2", display:"flex", flexDirection:"column", alignItems:"center"}}>
-          <h1 style={{color:"#1877f2", marginTop:"3%", marginBottom:"5%"}}>Your Completed Assessments</h1>
-          {/* <BarChart /> */}
-          <Bar
+        <div style={{ height:"60vh", width:"50vw", borderRadius:"25px", border:"5px solid #17a2b8", display:"flex", flexDirection:"column", alignItems:"center"}}>
+          <h1 style={{color:"#17a2b8", marginTop:"3%", marginBottom:"5%"}}>Your Completed Assessments</h1>
+          <div style={{height:"40vh", width:"45vw"}}>
+            <Bar
             data={{
-              labels: ['Vulnerability Scans', 'Dns', 'Ssl'],
+              labels: ['VulnScans', 'Dns', 'Ssl', "GenPays"],
               datasets: [
                 {
-                  label: '# of assessments',
-                  data: [5, 2, 3],
-                  backgroundColor: [
-                    "purple", "green", "blue"
-                  ],
+                  label: ['Following are the # of your Completed Assessments.'],
+                  data: [scanList, dnsList, sslList, genList],
+                  backgroundColor: ["purple", "green", "blue", "orange"],
                   borderColor: [
                     'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
                     'rgba(255, 206, 86, 1)',
                   ],
                   borderWidth: 1,
@@ -75,10 +107,13 @@ const Dashboard = ({ auth: { user } }) => {
               ],
             }}
             height={1000}
-            width={1500}
+            width={800}
             options={{
-              maintainAspectRatio: true,
+              maintainAspectRatio: false,
               scales: {
+                xAxes: [{
+                  barPercentage: 0.2
+                }],
                 yAxes: [
                   {
                     ticks: {
@@ -94,11 +129,10 @@ const Dashboard = ({ auth: { user } }) => {
               },
             }} 
           />
-        </div>
-      </div>
-      
-    </div> 
-    // </div>
+          </div>        
+        </div>      
+      </div> 
+    </div>
   );
 };
 

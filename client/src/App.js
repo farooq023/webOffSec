@@ -9,7 +9,7 @@ import Dashboard from './components/dashboard/Dashboard';
 // import LoginT from './pages/login/Login';
 
 // recon
-import Recon from './pages/webAssessment/Recon';
+// import Recon from './pages/webAssessment/Recon';
 import Scan from './pages/webAssessment/Scan';
 import Rescan from './pages/Rescan';
 import Dns from './pages/WAF/Dns';
@@ -18,7 +18,6 @@ import Payloads from './pages/WAF/Payloads';
 import Spoof from './pages/WAF/Spoof';
 import Inbound from './pages/webGateway/Inbound';
 import Outbound from './pages/webGateway/Outbound';
-import Ongoing from './pages/webAssessment/Ongoing';
 // import Completed from "./pages/Completed";
 import Agents from './pages/admin/Agents';
 import AdminDashboard from './pages/dashboard/AdminDashboard';
@@ -32,6 +31,10 @@ import ScanResults from './pages/webAssessment/ScanResults';
 import DnsList from './pages/WAF/DnsList';
 import DnsResults from './pages/WAF/DnsResults';
 import Test from './pages/Test';
+
+import GenList from './pages/WAF/GenList';
+// import GenResults from './pages/WAF/GenResults';
+
 
 import IsAdmin from './components/routing/IsAdmin';
 
@@ -123,6 +126,11 @@ const App = () => {
           /> */}
 
           <Route
+            path="genlist"
+            element={<PrivateRoute component={GenList} />}
+          />
+
+          <Route
             path="scanresults"
             element={<PrivateRoute component={ScanResults} />}
           />
@@ -132,7 +140,7 @@ const App = () => {
             element={<PrivateRoute component={aDashboard} />}
           /> */}
 
-          <Route path="recon" element={<PrivateRoute component={Recon} />} />
+          {/* <Route path="recon" element={<PrivateRoute component={Recon} />} /> */}
           <Route path="scan" element={<PrivateRoute component={Scan} />} />
           <Route path="rescan" element={<PrivateRoute component={Rescan} />} />
 
@@ -153,11 +161,7 @@ const App = () => {
             element={<PrivateRoute component={Outbound} />}
           />
 
-          <Route
-            path="ongoing"
-            element={<PrivateRoute component={Ongoing} />}
-          />
-          {/* <PrivateRoute exact path="/completed" element={<PrivateRoute component={Dashboard}  />}/> */}
+          
           <Route path="agents" element={<PrivateRoute component={Agents} />} />
           <Route
             path="getreport"

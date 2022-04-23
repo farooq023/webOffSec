@@ -1,67 +1,49 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/alt-text */
+
 
 import React, { useEffect, useState } from "react";
 import { Button } from "reactstrap";
 import Widget from "../../components/Widget/Widget";
 import generatePDF from "../../pdfReporting/webscan/PdfReport.js";
 
-// import img from "../assess.jfif"
-// import img3 from "../report.jpg"
-// import { results } from '../../actions/results.js';
-// import {connect} from 'react-redux';
-// import props from 'prop-types';
-// import {Link} from 'react-router-dom'
-
 const ScanResults = (props) => {
-  let [scanResults, setScanResults] = useState([]);
+  // let [scanResults, setScanResults] = useState([]);
 
-  let [email, setEmail] = useState(props.location.email);
-  let [domain, setDomain] = useState(props.location.domain);
-  let [date, setDate] = useState(props.location.date);
-  let [time, setTime] = useState(props.location.time);
-  let [duration, setDuration] = useState(props.location.dur);
+  // let [email, setEmail] = useState(props.location.email);
+  // let [domain, setDomain] = useState(props.location.domain);
+  // let [date, setDate] = useState(props.location.date);
+  // let [time, setTime] = useState(props.location.time);
+  // let [duration, setDuration] = useState(props.location.dur);
 
-  let user = [email, domain, date, time, duration];
+  // let user = [email, domain, date, time, duration];
 
-  useEffect(() => {
-    fetch("/api/fetchscan/" + domain, {
-      method: "GET",
-      // body: JSON.stringify(domain),
-      // header: {
-      //     "Content-Type": "application/json"
-      // }
-    }).then(function (response) {
-      response.json().then((res) => {
-        if (res.length > 0) {
-          setScanResults(res);
-        }
-        // else {
-        //     var error = new Error(response.statusText)
-        //     error.response = response
-        //     throw error
-        // }
-      });
-    });
-  });
+  // useEffect(() => {
+  //   fetch("/api/fetchscan/"+email+'/'+domain, {
+  //     method: "GET",
+  //     // body: JSON.stringify(domain),
+  //     // header: {
+  //     //     "Content-Type": "application/json"
+  //     // }
+  //   }).then(function (response) {
+  //     response.json().then((res) => {
+  //       if (res.length > 0) {
+  //         setScanResults(res);
+  //       }
+  //       // else {
+  //       //     var error = new Error(response.statusText)
+  //       //     error.response = response
+  //       //     throw error
+  //       // }
+  //     });
+  //   });
+  // }, []);
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>
-        {" "}
-        <b>Found Vulnerabilities on {domain}</b>{" "}
-      </h1>
+    <div style={{height:"100vh", width:"100%", backgroundColor:"#F0F2F5", display:"flex", flexDirection:"column", alignItems:"center"}}>
+      {/* <h1 style={{marginTop:"7%", color:"#17a2b8"}}><b>Found Vulnerabilities on {domain}</b></h1> */}
+      <h1 style={{marginTop:"7%", color:"#17a2b8"}}><b>Found Vulnerabilities on</b></h1>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginTop: "3%",
-          marginLeft: "15%",
-        }}
-      >
-        <Widget style={{ width: "42%" }}>
+      {/* <div style={{display: "flex", flexDirection: "column", marginTop: "3%", marginLeft: "15%"}}>
+        <div style={{ width: "42%" }}>
           <h2>
             <b>
               Assessment Details:{"   "}
@@ -85,11 +67,11 @@ const ScanResults = (props) => {
           <h4>
             <u>Duration</u>: {duration}
           </h4>
-        </Widget>
+        </div>
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Widget style={{ width: "70%" }}>
+        <div style={{ width: "70%" }}>
           <table class="table">
             <thead>
               <tr>
@@ -117,8 +99,8 @@ const ScanResults = (props) => {
               )}
             </tbody>
           </table>
-        </Widget>
-      </div>
+        </div>
+      </div> */}
     </div>
   );
 };

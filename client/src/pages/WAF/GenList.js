@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Button } from 'reactstrap';
 
-const SslList = ({ auth: { user } }) => {
+const GenList = ({ auth: { user } }) => {
 
-  let [sslList, setSslList] = useState([]);
+  let [genList, setGenList] = useState([]);
 
   useEffect(() => {
-    fetch("/api/fetchssl/"+user.email, {
+    fetch("/api/fetchgen/"+user.email, {
       method: "GET",
       // body: JSON.stringify(domain),
       // header: {
@@ -19,15 +19,10 @@ const SslList = ({ auth: { user } }) => {
     }).then(function (response) {
       response.json().then((res) => {
         if (res.length > 0) {
-          setSslList(res);
+            setGenList(res);
         } else {
-          setSslList("0");
+            setGenList("0");
         }
-        // else {
-        //     var error = new Error(response.statusText)
-        //     error.response = response
-        //     throw error
-        // }
       });
     });
   });
@@ -35,11 +30,11 @@ const SslList = ({ auth: { user } }) => {
   return (
     <div style={{height:"100vh", width:"100%", backgroundColor:"#F0F2F5", display:"flex", flexDirection:"column", alignItems:"center"}}>
       <h1 style={{ marginTop:"7%", color:"#17a2b8" }}>
-        List of Abused SSL Cipher
+        List of Generated Payloads
       </h1>
 
       <div style={{ display: "flex", justifyContent: "center", marginTop:"5%", border:"5px solid #17a2b8", borderRadius:"25px", padding:"1.5%" }}>
-        <div className="scrollbar scrollbar-primary  mt-5 mx-auto" style={{height:"40vh", width: "30vw"}}>
+        <div className="scrollbar scrollbar-primary  mt-5 mx-auto" style={{height:"40vh", width: "30vw"}}> 
           <Table style={{width:"29vw"}}>
             <thead>
               <tr>
@@ -48,14 +43,14 @@ const SslList = ({ auth: { user } }) => {
               </tr>
             </thead>
             <tbody>
-              {sslList !== "0" ? (
-                sslList.map((obj) => (
+              {genList !== "0" ? (
+                genList.map((obj) => (
                   <tr>
                     <td>{obj.Domain}</td>
                     <td>
                       <Link
                         to={{
-                          pathname: "/sslresults",
+                          pathname: "/genresults",
                           email: obj.Email,
                           domain: obj.Domain,
                           date: obj.Date,
@@ -80,7 +75,7 @@ const SslList = ({ auth: { user } }) => {
 };
 
 
-SslList.propTypes = {
+GenList.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
@@ -88,4 +83,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(SslList);
+export default connect(mapStateToProps)(GenList);

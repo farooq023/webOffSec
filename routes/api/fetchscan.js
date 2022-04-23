@@ -9,7 +9,6 @@ const scanResults = require("../../models/Scan.js")
 
 router.get('/:email',
   async (req, res) => {
-    console.log("fetch scan api called")
     allScan.aggregate([{ $match:{ Email: req.params.email } }]).
     exec((err,results)=>{        
         if(!results){
@@ -25,10 +24,10 @@ router.get('/:email',
   } 
 )
 
-router.get('/:domain',
+router.get('/:email/:domain',
   async (req, res) => {
-    // console.log("***********fetching scan results api called***********", req.session.mail);
-    scanResults.aggregate([{ $match:{ Domain: req.params.domain, Email: req.session.mail } }]).
+    console.log("fetching scan results api called");
+    scanResults.aggregate([{ $match:{ Email: req.params.email, Domain: req.params.domain } }]).
     exec((err,results)=>{
         if(!results){
           res.send(res)
@@ -38,7 +37,6 @@ router.get('/:domain',
           res.send(err)
           return "Not found"
         }
-
         res.send(results);
     })
   } 

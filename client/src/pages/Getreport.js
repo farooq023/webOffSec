@@ -1,84 +1,76 @@
 
-import React from 'react';
 
-import Widget from '../components/Widget/Widget';
+import React, { useEffect, useState }  from 'react';
+import { Table, Button } from 'reactstrap';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { MDBContainer } from "mdbreact";
+// import "./scrollbar.css";
 
-const Getreport = () => {
+const Getreport = ({ auth: { user } }) => {
 
-  return (
-    <div>
-      <h1 style={{textAlign: 'center'}}> <b>Your Completed Assessments</b></h1>
-      <br/>
-      <h4 style={{textAlign: 'center'}}>Get Report</h4>
-      
-      <br/>
-      <br/>
-      
-      <div>
-        <Widget className="widget-auth mx-auto">
-            <table class="table" >
+    let [assessmentList, setAssessmentList] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/fetchallassessment/'+user.email, {
+            method: 'GET'
+        }).then(function (response) {
+            response.json().then((res) => {
+                if (res.length > 0) {
+                    setAssessmentList(res);
+                }
+                else {
+                    setAssessmentList('0');
+            }
+        });
+    });
+    }, []);
+
+    return (
+        <div style={{height:"100vh", width:"100%", backgroundColor:"#F0F2F5", display:"flex", flexDirection:"column", alignItems:"center"}}>
+        <h1 style={{ marginTop:"7%", color:"#17a2b8" }}>
+            List of Completed Assessments
+        </h1>
+
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop:"3%", border:"5px solid #17a2b8", borderRadius:"25px", padding:"1.5%"}}>
+            <div className="scrollbar scrollbar-primary  mt-5 mx-auto" style={{height:"50vh", width: "46vw"}}>
+            <Table style={{width:"45vw"}} >
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Domain</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Action</th>
+                        <th><u>Domain</u></th>
+                        <th><u>Assessment Type</u></th>
+                        <th><u>Actions</u></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>comsats.com</td>
-                        <td>Scan</td>
-                        <td>30-11-2020</td>
-                        <td>
-                            <button style={{backgroundColor:'silver', color:'black'}}>
-                                Get report
-                            </button>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>abasyn.com</td>
-                        <td>Abuse SSl</td>
-                        <td>20-01-2021</td>
-                        <td>
-                            <button style={{backgroundColor:'silver', color:'black'}}>
-                            Get report
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>uet.com</td>
-                        <td>Recon</td>
-                        <td>15-08-2021</td>
-                        <td>
-                            <button style={{backgroundColor:'silver', color:'black'}}>
-                                Get report
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>nust.com</td>
-                        <td>Scan</td>
-                        <td>05-07-2020</td>
-                        <td>
-                            <button style={{backgroundColor:'silver', color:'black'}}>
-                                Get report
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </Widget>
-      </div>
+                    <tbody>
+                        {assessmentList !== '0' ? (
+                        assessmentList.map((obj) => (
+                            <tr>
+                                <td>{obj.Domain}</td>
+                                <td>{obj.Type}</td>
+                                <td><Button color='primary' size="sm" style={{borderRadius:"25px" }}>Get Report</Button></td>
+                            </tr>
+                        ))
+                        ) : (
+                        <td>No Results Found</td>
+                        )}
+                    </tbody>
+                </Table>
+            </div>
 
-    </div>
-  );
+        </div>
+        </div>
+    );
 }
 
-export default Getreport;
+Getreport.propTypes = {
+    auth: PropTypes.object.isRequired
+};
+  
+const mapStateToProps = (state) => ({
+auth: state.auth
+});
+
+export default connect(mapStateToProps)(Getreport);
+
+// export default Getreport;
