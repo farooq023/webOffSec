@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Button } from 'reactstrap';
@@ -8,6 +8,7 @@ import { width } from '@amcharts/amcharts4/.internal/core/utils/Utils';
 
 
 const ScanList = ({ auth: { user } }) => {
+
   let [scanList, setScanList] = useState([]);
 
   useEffect(() => {
@@ -47,17 +48,23 @@ const ScanList = ({ auth: { user } }) => {
                 <tr>
                   <td>{obj.Domain}</td>
                   <td>
-                    <Link
-                      to={{
-                        pathname: '/scanresults',
+                    {/* <Link 
+                        to={{pathname:'/scanresults',
+                        // email: user.email,
+                        // domain: obj.Domain,
+                        // date: obj.Date,
+                        // time: obj.Time,
+                        // dur: obj.Duration,
+                        state:{domain: "comsats"}
+                      }}> */}
+                      <Link to="/scanresults" state={{
                         email: user.email,
                         domain: obj.Domain,
                         date: obj.Date,
                         time: obj.Time,
-                        dur: obj.Duration
-                      }}
-                    >
-                      <Button color='primary' size="sm" style={{borderRadius:"25px" }}>View Results</Button>
+                        dur: obj.Duration,
+                      }}>
+                      <Button color='primary' size="sm" style={{borderRadius:"25px"}}>View Results</Button>
                     </Link>
                   </td>
                 </tr>
